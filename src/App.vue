@@ -1,32 +1,51 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="app">
+    <el-header>
+      <v-app-bar app clipped-left color="#323232" dark flat v-if="this.$route.name !== 'Login'">
+        <v-toolbar-title>Oh-My-Anime</v-toolbar-title>
+        <v-toolbar-items class="ml-5">
+          <v-btn text to="/">动漫管理</v-btn>
+          <v-btn text to="/sds">未定</v-btn>
+          <v-btn text @click="Logout">登出</v-btn>
+        </v-toolbar-items>
+      </v-app-bar>
+    </el-header>
+
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+
+    <el-footer>
+      <Footer></Footer>
+    </el-footer>
+  </v-app>
 </template>
 
+<script>
+  import Footer from "./components/Footer";
+  import config from "./config";
+
+  export default {
+    name: 'App',
+
+    components: {
+      Footer
+    },
+
+    data: () => ({
+      //
+    }),
+    methods: {
+      Logout() {
+        this.axios.get(config.LogoutApi).then(() => {
+          localStorage.removeItem('token')
+          this.$router.push('/login')
+        })
+      }
+    },
+  };
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
