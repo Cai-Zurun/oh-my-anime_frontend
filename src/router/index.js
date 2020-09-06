@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import config from "../config";
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,7 @@ router.beforeEach((to, from, next) => {
   //   sessionStorage.removeItem('uriId')
   // }
   // 路由守卫
-  var token = localStorage.getItem('token')
+  var token = config.sessionId
 
   if (!token) {
     if (to.name !== 'Login' && to.name !== 'Register') {

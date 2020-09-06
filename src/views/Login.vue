@@ -77,7 +77,7 @@
                 ).then((response) => {
                     let res = response.data
                     if (res.code === 200) {
-                        localStorage.setItem('token', res.data.SessionId)
+                        sessionStorage.setItem('token', res.data.SessionId)
                         this.$router.replace({ path: '/' })
                     } else if (res.code === 400) {
                         this.$message.error('用户名或密码错误')

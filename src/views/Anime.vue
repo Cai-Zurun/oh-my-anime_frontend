@@ -3,10 +3,13 @@
         <el-header>
             <el-row :gutter="20">
                 <el-col :span="3">
-                    <add-anime-type></add-anime-type>
+                    <anime-type-add></anime-type-add>
                 </el-col>
-                <el-col span="3">
-                    <add-anime></add-anime>
+                <el-col :span="3">
+                    <anime-type-edit></anime-type-edit>
+                </el-col>
+                <el-col :span="3">
+                    <anime-add></anime-add>
                 </el-col>
             </el-row>
         </el-header>
@@ -18,16 +21,18 @@
 </template>
 
 <script>
-    import AddAnime from "../components/AddAnime";
-    import AddAnimeType from "../components/AddAnimeType";
+    import AnimeAdd from "../components/AnimeAdd";
+    import AnimeTypeAdd from "../components/AnimeTypeAdd";
     import AnimeTable from "../components/AnimeTable";
+    import AnimeTypeEdit from "../components/AnimeTypeEdit";
 
     export default {
         name: "Anime",
         components: {
-            AddAnime,
-            AddAnimeType,
-            AnimeTable
+            AnimeAdd,
+            AnimeTypeAdd,
+            AnimeTable,
+            AnimeTypeEdit
         },
     }
 </script>

@@ -28,7 +28,8 @@
     import config from "../config";
 
     export default {
-        name: "AddAnimeType",
+        name: "AnimeTypeAdd",
+        inject: ['reload'],
         data: () => ({
             dialog: false,
             inputForm: {
@@ -44,13 +45,14 @@
             },
             // 数据连同文件一起传到后端
             add () {
-                this.axios.post(config.AddAnimeTypeApi, this.inputForm, {
+                this.axios.post(config.AnimeTypeAddApi, this.inputForm, {
                     headers: {
-                        'gfsessionid': localStorage.getItem('token')
+                        'gfsessionid': config.sessionId
                     }
                 }).then( response => {
                         let res = response.data
                         if (res.code === 200) {
+                            this.reload()
                             this.$message.success(res.message)
                         }else if (res.code === 400) {
                             this.$message.error(res.message)

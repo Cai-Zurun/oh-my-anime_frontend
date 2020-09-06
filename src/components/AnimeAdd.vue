@@ -19,7 +19,15 @@
                     :action="action"
                     :http-request="fileUpload"
                 >
-                    <el-button size="small" type="primary">上传</el-button>
+                    <v-btn
+                        outlined
+                        block
+                        width="100%"
+                    >
+                        Upload Anime Image
+                        <v-icon right dark>mdi-cloud-upload</v-icon>
+                    </v-btn>
+<!--                    <el-button size="small" type="primary">上传</el-button>-->
                 </el-upload>
             </v-card-text>
 
@@ -36,7 +44,8 @@
     import config from "../config";
 
     export default {
-        name: "AddAnime",
+        name: "AnimeAdd",
+        inject: ['reload'],
         data: () => ({
             dialog: false,
             inputForm: {
@@ -58,19 +67,20 @@
             // 数据连同文件一起传到后端
             add () {
                 let fd = new FormData()
-                fd.append("test", "for test")
+                // fd.append("test", "for test")
                 fd.append("name", this.inputForm.name)
                 fd.append("link", this.inputForm.link)
                 fd.append("type", this.inputForm.type)
                 fd.append("AnimeImg", this.inputForm.file)
-                this.axios.post(config.animeAddApi, fd, {
+                this.axios.post(config.AnimeAddApi, fd, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'gfsessionid': localStorage.getItem('token')
+                        'gfsessionid': config.sessionId
                     }
                 }).then( response => {
                         let res = response.data
                         if (res.code === 200) {
+                            this.reload()
                             this.$message.success(res.message)
                         }else if (res.code === 400) {
                             this.$message.error(res.message)
