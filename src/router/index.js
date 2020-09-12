@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import config from "../config";
 
 Vue.use(VueRouter)
 
@@ -21,30 +20,30 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  // if (from === 'WafDetaills') {
-  //   // always clear server and uri info
-  //   sessionStorage.removeItem('serverId')
-  //   sessionStorage.removeItem('uriId')
-  // }
-  // 路由守卫
-  var token = config.sessionId
-
-  if (!token) {
-    if (to.name !== 'Login' && to.name !== 'Register') {
-      next({
-        name: 'Login'
-      })
-    }
-    next()
-  } else {
-    if (to.name === 'Login' || to.name === 'Register') {
-      next({
-        name: 'Anime'
-      })
-    }
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   // if (from === 'WafDetaills') {
+//   //   // always clear server and uri info
+//   //   sessionStorage.removeItem('serverId')
+//   //   sessionStorage.removeItem('uriId')
+//   // }
+//   // 路由守卫
+//   var token = config.sessionId
+//
+//   if (!token) {
+//     if (to.name !== 'Login' && to.name !== 'Register') {
+//       next({
+//         name: 'Login'
+//       })
+//     }
+//     next()
+//   } else {
+//     if (to.name === 'Login' || to.name === 'Register') {
+//       next({
+//         name: 'Anime'
+//       })
+//     }
+//     next()
+//   }
+// })
 
 export default router

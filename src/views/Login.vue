@@ -30,9 +30,10 @@
             <v-card-actions>
                 <v-btn text color="primary" @click="onLogin">登录</v-btn>
                 <v-btn text @click="onReset">重置</v-btn>
+                <v-btn text to="/">跳转主页面</v-btn>
             </v-card-actions>
         </v-card>
-        <div class="mt-8 text-center">Oh-My-Anime管理面板</div>
+        <div class="mt-8 text-center">Oh-My-Anime</div>
 
         <!-- 登录等待 -->
         <v-dialog v-model="isLoading" hide-overlay persistent width="300">
@@ -48,7 +49,7 @@
 </template>
 
 <script>
-    import config from '../config'
+    import config from '../utils'
 
     export default {
         name: 'Login',
@@ -77,7 +78,7 @@
                 ).then((response) => {
                     let res = response.data
                     if (res.code === 200) {
-                        sessionStorage.setItem('token', res.data.SessionId)
+                        localStorage.setItem('token', res.token)
                         this.$router.replace({ path: '/' })
                     } else if (res.code === 400) {
                         this.$message.error('用户名或密码错误')

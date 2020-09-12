@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import config from "../config";
+    import utils from "../utils";
 
     export default {
         name: "AnimeEdit",
@@ -58,7 +58,7 @@
             }
         },
         mounted() {
-          console.log(this.oldType,this.oldName,this.oldLink)
+          // console.log(this.oldType,this.oldName,this.oldLink)
         },
         methods: {
             close () {
@@ -68,29 +68,35 @@
                 this.dialog = false
             },
             update () {
-                let fd = new FormData()
-                fd.append("type", this.oldType)
-                fd.append("name", this.oldName)
-                fd.append("NewType", this.inputForm.type)
-                fd.append("NewName", this.inputForm.name)
-                fd.append("Newlink", this.inputForm.link)
-                fd.append("AnimeImg", this.inputForm.file)
-                this.axios.post(config.AnimeUpdateApi, fd, {
-                    headers: {
-                        'gfsessionid': config.sessionId
-                    }
-                }).then( response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                            this.$message.success(res.message)
-                        }else if (res.code === 400) {
-                            this.reload()
-                            this.$message.error(res.message)
+                if (utils.token != null){
+                    let fd = new FormData()
+                    fd.append("type", this.oldType)
+                    fd.append("name", this.oldName)
+                    fd.append("NewType", this.inputForm.type)
+                    fd.append("NewName", this.inputForm.name)
+                    fd.append("Newlink", this.inputForm.link)
+                    fd.append("AnimeImg", this.inputForm.file)
+                    this.axios.post(utils.AnimeUpdateApi, fd, {
+                        headers: {
+                            'Authorization': "Bearer " + utils.token
                         }
-                        this.close()
-                    }
-                )
+                    }).then( response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                                this.$message.success(res.message)
+                            }else if (res.code === 400) {
+                                this.reload()
+                                this.$message.error(res.message)
+                            }
+                            this.close()
+                        }
+                    )
+                }else {
+                    this.$alert('抱歉客官，本站只允许作者对内容进行更改', '越权操作', {
+                        confirmButtonText: '确定',
+                    });
+                }
             },
             fileUpload (item) {
                 this.inputForm.file = item.file

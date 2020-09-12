@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-            <v-btn class="" depressed dark color="primary"  v-on="on">
+            <v-btn class="" outlined dark color="primary"  v-on="on">
                 <v-icon dark>mdi-pencil</v-icon>
                 编辑动漫类型
             </v-btn>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import config from "../config";
+    import utils from "../utils";
 
     export default {
         name: "AnimeTypeEdit",
@@ -46,47 +46,60 @@
                 this.dialog = false
             },
             del () {
-                let deleteItem = {
-                    Type : this.inputForm.oldType
-                }
-                this.axios.post(config.AnimeTypeDeleteApi, deleteItem, {
-                    headers: {
-                        'gfsessionid': config.sessionId
+                if (utils.sessionId != null) {
+                    let deleteItem = {
+                        Type : this.inputForm.oldType
                     }
-                }).then( response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                            this.$message.success(res.message)
-                        }else if (res.code === 400) {
-                            this.reload()
-                            this.$message.error(res.message)
+                    this.axios.post(utils.AnimeTypeDeleteApi, deleteItem, {
+                        headers: {
+                            'gfsessionid': utils.sessionId
                         }
-                        this.close()
-                    }
-                )
+                    }).then( response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                                this.$message.success(res.message)
+                            }else if (res.code === 400) {
+                                this.reload()
+                                this.$message.error(res.message)
+                            }
+                            this.close()
+                        }
+                    )
+                }else {
+                    this.$alert('抱歉客官，本站只允许作者对内容进行更改', '越权操作', {
+                        confirmButtonText: '确定',
+                    });
+                }
+
             },
             update () {
-                let updateItem = {
-                    Type: this.inputForm.oldType,
-                    NewType: this.inputForm.newType
-                }
-                this.axios.post(config.AnimeTypeUpdateApi, updateItem, {
-                    headers: {
-                        'gfsessionid': config.sessionId
+                if (utils.token != null) {
+                    let updateItem = {
+                        Type: this.inputForm.oldType,
+                        NewType: this.inputForm.newType
                     }
-                }).then( response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                            this.$message.success(res.message)
-                        }else if (res.code === 400) {
-                            this.reload()
-                            this.$message.error(res.message)
+                    this.axios.post(utils.AnimeTypeUpdateApi, updateItem, {
+                        headers: {
+                            'Authorization': "Bearer " + utils.token
                         }
-                        this.close()
-                    }
-                )
+                    }).then( response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                                this.$message.success(res.message)
+                            }else if (res.code === 400) {
+                                this.reload()
+                                this.$message.error(res.message)
+                            }
+                            this.close()
+                        }
+                    )
+                }else {
+                    this.$alert('抱歉客官，本站只允许作者对内容进行更改', '越权操作', {
+                        confirmButtonText: '确定',
+                    });
+                }
             }
         }
     }

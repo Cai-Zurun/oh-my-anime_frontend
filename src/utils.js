@@ -1,7 +1,8 @@
 var baseUrl = 'http://localhost:8520'
 
+
 export default {
-    sessionId: sessionStorage.getItem('token'),
+    token: localStorage.getItem('token'),
 
     //user api
     LogApi: baseUrl + '/user/sign-in',
@@ -16,5 +17,7 @@ export default {
     AnimeTypeAddApi: baseUrl + '/anime/type/add',
     AnimeTypeGetApi: baseUrl + '/anime/type/get',
     AnimeTypeDeleteApi: baseUrl + '/anime/type/delete',
-    AnimeTypeUpdateApi: baseUrl + '/anime/type/update'
+    AnimeTypeUpdateApi: baseUrl + '/anime/type/update',
+
 }
+

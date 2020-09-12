@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import config from "../config";
+    import utils from "../utils";
     import AnimeEdit from "./AnimeEdit";
 
     export default {
@@ -80,10 +80,10 @@
         },
         created () {
             //获取动漫类型
-            this.axios.get(config.AnimeTypeGetApi, {
-                headers: {
-                    'gfsessionid': config.sessionId
-                }
+            this.axios.get(utils.AnimeTypeGetApi, {
+                // headers: {
+                //     'gfsessionid': config.sessionId
+                // }
             }).then( response => {
                     let res = response.data
                     if (res.code === 200) {
@@ -94,10 +94,10 @@
                 }
             )
             //获取动漫
-            this.axios.get(config.AnimeAllGetApi, {
-                headers: {
-                    'gfsessionid': config.sessionId
-                }
+            this.axios.get(utils.AnimeAllGetApi, {
+                // headers: {
+                //     'gfsessionid': config.sessionId
+                // }
             }).then( response => {
                     let res = response.data
                     if (res.code === 200) {
@@ -110,27 +110,33 @@
         },
         methods : {
             delAnime (type, name) {
-                let deleteItem = {
-                    Type : type,
-                    Name : name
-                }
-                this.axios.post(config.AnimeDeleteApi, deleteItem, {
-                    headers: {
-                        'gfsessionid': config.sessionId
+                if (utils.token != null) {
+                    let deleteItem = {
+                        Type : type,
+                        Name : name
                     }
-                }).then( response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                            this.$message.success(res.message)
-
-                        }else if (res.code === 400) {
-                            this.reload()
-                            this.$message.error(res.message)
+                    this.axios.post(utils.AnimeDeleteApi, deleteItem, {
+                        headers: {
+                            'Authorization': "Bearer " + utils.token
                         }
-                        this.close()
-                    }
-                )
+                    }).then( response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                                this.$message.success(res.message)
+
+                            }else if (res.code === 400) {
+                                this.reload()
+                                this.$message.error(res.message)
+                            }
+                            this.close()
+                        }
+                    )
+                }else {
+                    this.$alert('抱歉客官，本站只允许作者对内容进行更改', '越权操作', {
+                        confirmButtonText: '确定',
+                    });
+                }
             },
 
         }

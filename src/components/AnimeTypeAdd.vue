@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-            <v-btn class="" depressed dark color="primary"  v-on="on">
+            <v-btn class="" outlined dark color="primary"  v-on="on">
                 <v-icon dark>mdi-plus</v-icon>
                 添加动漫类型
             </v-btn>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import config from "../config";
+    import utils from "../utils";
 
     export default {
         name: "AnimeTypeAdd",
@@ -43,23 +43,28 @@
                 this.inputForm.type = ''
                 this.dialog = false
             },
-            // 数据连同文件一起传到后端
             add () {
-                this.axios.post(config.AnimeTypeAddApi, this.inputForm, {
-                    headers: {
-                        'gfsessionid': config.sessionId
-                    }
-                }).then( response => {
-                        let res = response.data
-                        if (res.code === 200) {
-                            this.reload()
-                            this.$message.success(res.message)
-                        }else if (res.code === 400) {
-                            this.$message.error(res.message)
+                if (utils.token != null) {
+                    this.axios.post(utils.AnimeTypeAddApi, this.inputForm, {
+                        headers: {
+                            'Authorization': "Bearer " + utils.token
                         }
-                        this.close()
-                    }
-                )
+                    }).then( response => {
+                            let res = response.data
+                            if (res.code === 200) {
+                                this.reload()
+                                this.$message.success(res.message)
+                            }else if (res.code === 400) {
+                                this.$message.error(res.message)
+                            }
+                            this.close()
+                        }
+                    )
+                }else {
+                    this.$alert('抱歉客官，本站只允许作者对内容进行更改', '越权操作', {
+                        confirmButtonText: '确定',
+                    });
+                }
             }
         }
     }
