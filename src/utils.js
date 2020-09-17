@@ -1,5 +1,5 @@
-var baseUrl = 'http://localhost:8520'
-
+// var baseUrl = 'http://localhost:8520'
+var baseUrl = 'http://120.26.160.7:8520'
 
 export default {
     token: localStorage.getItem('token'),

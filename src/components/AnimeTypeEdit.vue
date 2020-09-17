@@ -46,13 +46,13 @@
                 this.dialog = false
             },
             del () {
-                if (utils.sessionId != null) {
+                if (utils.token != null) {
                     let deleteItem = {
                         Type : this.inputForm.oldType
                     }
                     this.axios.post(utils.AnimeTypeDeleteApi, deleteItem, {
                         headers: {
-                            'gfsessionid': utils.sessionId
+                            'Authorization': "Bearer " + utils.token
                         }
                     }).then( response => {
                             let res = response.data
