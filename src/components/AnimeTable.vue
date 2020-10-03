@@ -32,16 +32,14 @@
                                     </v-img>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <a href="www.bilibili.com">
-                                        <v-btn outlined fab x-small color="green"  class="btn-right">
-                                            <v-icon>mdi-link-variant</v-icon>
-                                        </v-btn>
-                                    </a>
-                                    <a :href="card.Link">
-                                        <v-btn outlined fab x-small color="green"  class="btn-right">
-                                            <v-icon>mdi-link-variant</v-icon>
-                                        </v-btn>
-                                    </a>
+                                    <v-btn outlined fab x-small color="green"  class="btn-right" @click="toAnime(card.Link)">
+                                        <v-icon>mdi-link-variant</v-icon>
+                                    </v-btn>
+<!--                                    <a :href="card.Link">-->
+<!--                                        <v-btn outlined fab x-small color="green"  class="btn-right">-->
+<!--                                            <v-icon>mdi-link-variant</v-icon>-->
+<!--                                        </v-btn>-->
+<!--                                    </a>-->
                                     <anime-edit :old-type="card.Type" :old-name="card.Name" :old-link="card.Link" class="btn-right"></anime-edit>
                                     <v-btn outlined fab x-small color="red" @click="delAnime(card.Type, card.Name)">
                                         <v-icon>mdi-delete</v-icon>
@@ -143,7 +141,10 @@
                     });
                 }
             },
-
+            toAnime (Link) {
+                // window.location.href = "https://" + Link
+                window.open("https://" + Link)
+            }
         }
     }
 </script>

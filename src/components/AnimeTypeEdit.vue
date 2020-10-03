@@ -50,6 +50,7 @@
                     let deleteItem = {
                         Type : this.inputForm.oldType
                     }
+                    console.log(deleteItem)
                     this.axios.post(utils.AnimeTypeDeleteApi, deleteItem, {
                         headers: {
                             'Authorization': "Bearer " + utils.token
@@ -61,8 +62,9 @@
                                 this.$message.success(res.message)
                             }else if (res.code === 400) {
                                 this.reload()
-                                this.$message.error(res.message)
+                                // this.$message.error(res.message)
                             }
+                            console.log(res)
                             this.close()
                         }
                     )
